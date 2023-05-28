@@ -110,18 +110,7 @@ function catch_the_data() {
 
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'one_author';
-		//phpcs:ignore
-		$temp_data = $wpdb->get_row( "SELECT * FROM $table_name WHERE author_id = $author_id" );
-		if ( ! $temp_data ) {
-			$error = new WP_Error( '003', 'Invalid SQL Query' );
-			wp_send_json_error(
-				$error,
-				400
-			);
-		}
-		wp_delete_attachment( (int) $temp_data->author_display_img );
-
-		if ( $wpdb->replace(
+		if ( $wpdb->update(
 			$table_name,
 			[
 				'author_id'           => $author_id,
@@ -132,7 +121,9 @@ function catch_the_data() {
 				'author_social_media' => wp_json_encode( $social_contacts ),
 				'author_temp'         => 0,
 			],
-			array( '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d' ),
+			[ 'author_id' => $author_id ],
+			[ '%d', '%s', '%s', '%s', '%s', '%s', '%d' ],
+			[ '%d' ]
 		) ) {
 			return true;
 		} else {
@@ -242,6 +233,25 @@ function mini_form_data_extractor() {
 		}
 		$table_name = $wpdb->prefix . 'one_author';
 
+		if ( fetch_the_data( $author_id ) ) {
+			if ( $wpdb->update(
+				$table_name,
+				[
+					'author_id'          => $author_id,
+					'author_display_img' => $attachment_id,
+				],
+				[ 'author_id' => $author_id ],
+				[ '%d', '%s' ],
+				[ '%d' ]
+			) ) {
+				$return_data = [
+					'success'       => true,
+					'url'           => wp_get_attachment_url( $attachment_id ),
+					'attachment_id' => $attachment_id,
+				];
+				die( wp_json_encode( $return_data ) );
+			}
+		}
 		if ( $wpdb->replace(
 			$table_name,
 			[
