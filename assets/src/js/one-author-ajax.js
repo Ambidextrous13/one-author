@@ -11,10 +11,15 @@
 			element.style.opacity = 1;
 		}
 
+		const loadingEvent = new CustomEvent( 'waitPlease' );
+		const stopLoadEvent = new CustomEvent( 'noMoreWait' );
+		const idChangeEvent = new CustomEvent( 'idChanged' );
+
 		if ( AjaxData ) {
 			const AjaxUrl = AjaxData.ajax_url;
 			const AjaxNonce = AjaxData.ajax_nonce;
 			const idElement = document.getElementById( 'one_auth_id' );
+			const nameElement = document.getElementById( 'one_auth_name' );
 			const authForm = document.getElementById( 'author-form' );
 			const imageTag = document.getElementById( 'one_auth_avatar' );
 			const submitImg = document.getElementById( 'avatar_submit' );
@@ -24,6 +29,7 @@
 			alertsDiv.classList.add( 'hidden' );
 
 			submitImg.addEventListener( 'click', () => {
+				submitImg.dispatchEvent( loadingEvent );
 				const miniForm = new FormData( authForm );
 				if ( imageTag.files.length ) {
 					miniForm.append( 'one_auth_avatar', imageTag.files[ 0 ] );
@@ -57,9 +63,12 @@
 					alert1.innerHTML = 'Please select the avatar image';
 					alertsDiv.append( alert1 );
 				}
+				submitImg.dispatchEvent( stopLoadEvent );
+				submitBtn.innerHTML = 'Edit';
 			} );
 
 			idElement.addEventListener( 'onAdminDemands', () => {
+				submitImg.dispatchEvent( loadingEvent );
 				const miniForm = new FormData();
 				miniForm.append( 'mini_form_OTW', AjaxNonce );
 				miniForm.append( 'action', 'gods_eye' );
@@ -88,8 +97,24 @@
 									enableIt( submitBtn );
 								}
 							}
+						} else {
+							const selectedUser = document.getElementById( 'one_auth_name' ).value;
+							document.getElementById( 'author-form' ).reset();
+							document.querySelector( 'option[value="' + selectedUser + '"]' ).selected = true;
+							nameElement.dispatchEvent( idChangeEvent );
 						}
+						submitImg.dispatchEvent( stopLoadEvent );
 					} );
+			} );
+
+			submitImg.addEventListener( 'waitPlease', () => {
+				submitImg.classList.add( 'loader' );
+				submitImg.classList.remove( 'submit-btn' );
+			} );
+
+			submitImg.addEventListener( 'noMoreWait', () => {
+				submitImg.classList.add( 'submit-btn' );
+				submitImg.classList.remove( 'loader' );
 			} );
 		}
 	}()

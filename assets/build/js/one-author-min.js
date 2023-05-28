@@ -17,10 +17,14 @@
     element.style.cursor = 'pointer';
     element.style.opacity = 1;
   }
+  var loadingEvent = new CustomEvent('waitPlease');
+  var stopLoadEvent = new CustomEvent('noMoreWait');
+  var idChangeEvent = new CustomEvent('idChanged');
   if (AjaxData) {
     var AjaxUrl = AjaxData.ajax_url;
     var AjaxNonce = AjaxData.ajax_nonce;
     var idElement = document.getElementById('one_auth_id');
+    var nameElement = document.getElementById('one_auth_name');
     var authForm = document.getElementById('author-form');
     var imageTag = document.getElementById('one_auth_avatar');
     var submitImg = document.getElementById('avatar_submit');
@@ -28,6 +32,7 @@
     var submitBtn = document.getElementById('one_auth_submit');
     alertsDiv.classList.add('hidden');
     submitImg.addEventListener('click', function () {
+      submitImg.dispatchEvent(loadingEvent);
       var miniForm = new FormData(authForm);
       if (imageTag.files.length) {
         miniForm.append('one_auth_avatar', imageTag.files[0]);
@@ -59,8 +64,11 @@
         _alert.innerHTML = 'Please select the avatar image';
         alertsDiv.append(_alert);
       }
+      submitImg.dispatchEvent(stopLoadEvent);
+      submitBtn.innerHTML = 'Edit';
     });
     idElement.addEventListener('onAdminDemands', function () {
+      submitImg.dispatchEvent(loadingEvent);
       var miniForm = new FormData();
       miniForm.append('mini_form_OTW', AjaxNonce);
       miniForm.append('action', 'gods_eye');
@@ -86,8 +94,22 @@
               enableIt(submitBtn);
             }
           }
+        } else {
+          var selectedUser = document.getElementById('one_auth_name').value;
+          document.getElementById('author-form').reset();
+          document.querySelector('option[value="' + selectedUser + '"]').selected = true;
+          nameElement.dispatchEvent(idChangeEvent);
         }
+        submitImg.dispatchEvent(stopLoadEvent);
       });
+    });
+    submitImg.addEventListener('waitPlease', function () {
+      submitImg.classList.add('loader');
+      submitImg.classList.remove('submit-btn');
+    });
+    submitImg.addEventListener('noMoreWait', function () {
+      submitImg.classList.add('submit-btn');
+      submitImg.classList.remove('loader');
     });
   }
 })();
@@ -207,14 +229,17 @@ __webpack_require__.r(__webpack_exports__);
   disabledIt(submitBtn);
   if (nameElement && idElement) {
     setId(nameElement, idElement);
-    nameElement.addEventListener('change', function (event) {
-      var subjectedElement = event.target;
-      var optionNumber = subjectedElement.selectedIndex;
-      var option = subjectedElement[optionNumber];
-      setId(option, idElement);
-      if (1 < nameElement.length) {
-        idElement.dispatchEvent(adminDemands);
-      }
+    ['change', 'idChanged'].forEach(function (event_) {
+      nameElement.addEventListener(event_, function (event) {
+        var subjectedElement = event.target;
+        var optionNumber = subjectedElement.selectedIndex;
+        var option = subjectedElement[optionNumber];
+        setId(option, idElement);
+        if (1 < nameElement.length) {
+          idElement.dispatchEvent(adminDemands);
+        }
+        disabledIt(submitBtn);
+      });
     });
   }
 })();

@@ -36,15 +36,18 @@ import './one-author-ajax.js';
 
 		if ( nameElement && idElement ) {
 			setId( nameElement, idElement );
-			nameElement.addEventListener( 'change', ( event ) => {
-				const subjectedElement = event.target;
-				const optionNumber = subjectedElement.selectedIndex;
-				const option = subjectedElement[ optionNumber ];
-				setId( option, idElement );
-				if ( 1 < nameElement.length ) {
-					idElement.dispatchEvent( adminDemands );
-				}
-			} );
+			[ 'change', 'idChanged' ].forEach( ( event_ ) => {
+				nameElement.addEventListener( event_, ( event ) => {
+					const subjectedElement = event.target;
+					const optionNumber = subjectedElement.selectedIndex;
+					const option = subjectedElement[ optionNumber ];
+					setId( option, idElement );
+					if ( 1 < nameElement.length ) {
+						idElement.dispatchEvent( adminDemands );
+					}
+					disabledIt( submitBtn );
+				} );
+			 } );
 		}
 	}()
 );
