@@ -108,19 +108,6 @@ function catch_the_data() {
 			],
 		];
 
-		$attachment_id = null;
-		if ( ! ( is_null( $_POST['one_auth_avatar'] ) || empty( $_POST['one_auth_avatar'] ) ) ) {
-			$attachment_id = media_handle_upload( 'one_auth_avatar', 0 );
-
-			if ( is_wp_error( $attachment_id ) ) {
-				$error = new WP_Error( '004', 'Invalid Image' );
-				wp_send_json_error(
-					$error,
-					400
-				);
-			}
-		}
-
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'one_author';
 		//phpcs:ignore
@@ -143,7 +130,6 @@ function catch_the_data() {
 				'author_punch_line'   => $author_punchline,
 				'author_about'        => $author_about,
 				'author_social_media' => wp_json_encode( $social_contacts ),
-				'author_display_img'  => $attachment_id ? $attachment_id : '',
 				'author_temp'         => 0,
 			],
 			array( '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d' ),
@@ -213,7 +199,8 @@ function ajax_data_fetcher() {
 	$data = fetch_the_data( $_POST['one_auth_id'] );
 	if ( false !== $data ) {
 		$data->success            = true;
-		$data->author_display_img = wp_get_attachment_url( $data->author_display_img );
+		$attachment_url           = wp_get_attachment_url( $data->author_display_img );
+		$data->author_display_img = $attachment_url ? wp_get_attachment_url( $data->author_display_img ) : '';
 		die( wp_json_encode( $data ) );
 	}
 	$return_data = [

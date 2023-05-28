@@ -14,16 +14,14 @@ if ( empty( $one_authors ) ) {
 	if ( catch_the_data() ) {
 		echo 'Data stored successfully';
 	}
-	$data  = fetch_the_data();
-	$old   = true;
-	$image = false;
+	$data = fetch_the_data();
+	$old  = true;
 	if ( false === $data ) {
 		$old = false;
-		// $image = fetch_the_image();
 	}
-?>
+	?>
 <ul id="alerts" class="hidden"></ul>
-<form method="POST" action="" enctype="multipart/form-data" id="author-form">
+<form method="POST" action="" id="author-form">
 	<div class="one-author-container">
 		<div class="one-author-left-box">
 			<div class="one-author-id">
@@ -31,7 +29,7 @@ if ( empty( $one_authors ) ) {
 				if ( 1 === $auth_count ) {
 					echo '<input required readonly type="text" name="one_auth_id" id="one_auth_id" placeholder="Your ID" value="' . esc_attr__( 'User Id: ', 'one-author' ) . esc_attr( $one_authors[0]['ID'] ) . '">';
 				} else {
-					echo '<input required type="text" name="one_auth_id" id="one_auth_id" placeholder="Author ID">';
+					echo '<input required readonly type="text" name="one_auth_id" id="one_auth_id" placeholder="Author ID">';
 				}
 				?>
 			</div>
@@ -140,27 +138,4 @@ if ( empty( $one_authors ) ) {
 	</div>
 </form>
 	<?php
-	if ( $old ) {
-	?>
-		<div class="display">
-			<div class="about_author">
-				<div class="author_desc">
-					<img src="<?php echo esc_url( wp_get_attachment_url( $data->author_display_img ) ); ?>" alt="about author">
-					<ul class="author_social">
-						<li><a class="<?php echo esc_attr( $data->author_social_media[0]['handle'] ); ?>" href="<?php echo esc_url( $data->author_social_media[0]['url'] ); ?>" data-placement="top" data-toggle="tooltip" title="<?php echo esc_attr( $data->author_social_media[0]['handle'] ); ?>"><i class="fa fa-<?php echo esc_attr( $data->author_social_media[0]['handle'] ); ?>"></i></a></li>
-						<li><a class="<?php echo esc_attr( $data->author_social_media[1]['handle'] ); ?>" href="<?php echo esc_url( $data->author_social_media[1]['url'] ); ?>" data-placement="top" data-toggle="tooltip" title="<?php echo esc_attr( $data->author_social_media[1]['handle'] ); ?>"><i class="fa fa-<?php echo esc_attr( $data->author_social_media[1]['handle'] ); ?>"></i></a></li>
-						<li><a class="<?php echo esc_attr( $data->author_social_media[2]['handle'] ); ?>" href="<?php echo esc_url( $data->author_social_media[2]['url'] ); ?>" data-placement="top" data-toggle="tooltip" title="<?php echo esc_attr( $data->author_social_media[2]['handle'] ); ?>"><i class="fa fa-<?php echo esc_attr( $data->author_social_media[2]['handle'] ); ?>"></i></a></li>
-					</ul>
-				</div>
-				<div class="author_bio">
-					<h3 class="author_name"><a href="<?php echo esc_url( get_author_posts_url( $one_authors[0]['ID'] ) ); ?>"><?php echo esc_html( $data->author_display_name ); ?></a></h3>
-					<h5><?php echo esc_html( $data->author_punch_line ); ?></h5>
-					<p class="author_det">
-					<?php echo esc_html( $data->author_about ); ?>
-					</p>
-				</div>
-			</div>
-		</div>
-		<?
-	}
 }
