@@ -244,10 +244,17 @@ function mini_form_data_extractor() {
 				[ '%d', '%s' ],
 				[ '%d' ]
 			) ) {
+				$edit_link   = add_query_arg(
+					[
+						'item' => $attachment_id,
+						'mode' => 'edit',
+					],
+					admin_url( 'upload.php' )
+				);
 				$return_data = [
-					'success'       => true,
-					'url'           => wp_get_attachment_url( $attachment_id ),
-					'attachment_id' => $attachment_id,
+					'success'   => true,
+					'url'       => wp_get_attachment_url( $attachment_id ),
+					'edit_link' => $edit_link,
 				];
 				die( wp_json_encode( $return_data ) );
 			}
