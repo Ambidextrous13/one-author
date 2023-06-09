@@ -46,28 +46,30 @@ if ( empty( $one_authors ) ) {
 					<select class="one-author-social-select" name="one_auth_select_1" id="one_auth_select_1" placeholder="Social Select">
 						<?php
 						$social_media = [
-							'facebook',
-							'twitter',
-							'pinterest',
-							'google',
-							'linkedin',
-							'buffer',
-							'tumblr',
-							'reddit',
-							'stumbleupon',
-							'delicious',
-							'evernote',
-							'email',
-							'wordpress',
-							'pocket',
+							'Facebook',
+							'Twitter',
+							'Instagram',
+							'Pinterest',
+							'LinkedIn',
+							'Skype',
+							'YouTube',
+							'WordPress',
+							'Flickr',
+							'RSS',
+							'Google Plus',
+							'Tumblr',
+							'E-mail',
+							'Buffer',
+							'Reddit',
+							'Stumble Upon',
 						];
 						$select       = $old ? array_search( $data->author_social_media[0]['handle'], $social_media, true ) + 1 : 1;
 						foreach ( $social_media as $element ) {
 							if ( 0 === --$select ) {
-								echo '<option selected value="' . esc_attr( $element ) . '">' . esc_html( ucfirst( str_replace( '_', ' ', $element ) ) ) . '</option>';
+								echo '<option selected value="' . esc_attr( $element ) . '">' . esc_html( $element ) . '</option>';
 								$select = null;
 							}
-							echo '<option value="' . esc_attr( $element ) . '">' . esc_html( ucfirst( str_replace( '_', ' ', $element ) ) ) . '</option>';
+							echo '<option value="' . esc_attr( $element ) . '">' . esc_html( $element ) . '</option>';
 						}
 						?>
 					</select>
