@@ -32,7 +32,7 @@ function create_the_custom_table() {
 	KEY author_name (author_name)
 	) $charset_collate;";
 
-	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+	require_once untrailingslashit( ABSPATH ) . '\\wp-admin\\includes\\upgrade.php';
 	dbDelta( $sql );
 }
 
@@ -53,9 +53,9 @@ function catch_the_data() {
 			);
 			return false;
 		}
-		require_once ABSPATH . 'wp-admin/includes/image.php';
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once untrailingslashit( ABSPATH ) . 'wp-admin\\includes\\image.php';
+		require_once untrailingslashit( ABSPATH ) . 'wp-admin\\includes\\file.php';
+		require_once untrailingslashit( ABSPATH ) . 'wp-admin\\includes\\media.php';
 
 		global $admin_menu_instance;
 		if ( ! $admin_menu_instance ) {

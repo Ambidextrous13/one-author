@@ -12,12 +12,12 @@
  * Domain Path:       /languages
  */
 
-require_once ABSPATH . 'wp-content\\plugins\\one-author\\inc\\helpers\\autoloader.php';
+require_once untrailingslashit( ABSPATH ) . '\\wp-content\\plugins\\one-author\\inc\\helpers\\autoloader.php';
 // /////////////////////////////////////////////////////  Class Instantiation  ////////////////////////////
 use OneAuthor\Inc\Classes\Admin_Menu;
 $admin_menu_instance = new Admin_Menu();
 
-require_once ABSPATH . 'wp-content\\plugins\\one-author\\inc\\helpers\\data-handler.php';
+require_once untrailingslashit( ABSPATH ) . '\\wp-content\\plugins\\one-author\\inc\\helpers\\data-handler.php';
 
 // /////////////////////////////////////////////////////   Constant definition  ////////////////////////////
 define( 'ONE_AUTHOR_PATH', plugin_dir_path( __FILE__ ) );
@@ -53,5 +53,5 @@ function enqueuer() {
  * @return void
  */
 function the_one_author() {
-	require_once ABSPATH . 'wp-content\\plugins\\one-author\\inc\\templates\\author-box.php';
+	require_once untrailingslashit( ABSPATH ) . '\\wp-content\\plugins\\one-author\\inc\\templates\\author-box.php';
 }
