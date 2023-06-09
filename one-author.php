@@ -27,6 +27,7 @@ register_activation_hook( __FILE__, 'create_the_custom_table' );
 add_action( 'admin_enqueue_scripts', 'enqueuer' );
 add_action( 'wp_ajax_reg_avatar', 'mini_form_data_extractor' );
 add_action( 'wp_ajax_gods_eye', 'ajax_data_fetcher' );
+add_action( 'end_of_post', 'the_one_author' );
 
 /**
  * Handles the assets enqueueing process.
@@ -44,4 +45,13 @@ function enqueuer() {
 			'ajax_nonce' => wp_create_nonce( 'Admin_demands' ),
 		]
 	);
+}
+
+/**
+ * Echo outs the author info block.
+ *
+ * @return void
+ */
+function the_one_author() {
+	require_once ABSPATH . 'wp-content\\plugins\\one-author\\inc\\templates\\author-box.php';
 }
