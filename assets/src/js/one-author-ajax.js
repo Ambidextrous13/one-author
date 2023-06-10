@@ -131,9 +131,7 @@
 							document.getElementById( 'one_auth_punch_line' ).value = jsonRes.author_punch_line;
 							document.getElementById( 'one_auth_description' ).value = jsonRes.author_about;
 
-							if ( '' !== jsonRes.author_display_img ) {
-								toggleBtn2Edit( jsonRes.author_display_img );
-							}
+							toggleBtn2Edit( jsonRes.edit_link );
 
 							for ( const count in jsonRes.author_social_media ) {
 								const selectTag = document.getElementById( 'one_auth_select_' + parseInt( parseInt( count ) + 1 ) );
@@ -152,6 +150,9 @@
 							document.getElementById( 'one_auth_img' ).removeAttribute( 'src' );
 							document.querySelector( 'option[value="' + selectedUser + '"]' ).selected = true;
 							idElement.value = selectedID;
+							if ( isEditBtn ) {
+								toggleBtn2Upload();
+							}
 						}
 						submitImg.dispatchEvent( stopLoadEvent );
 					} );
