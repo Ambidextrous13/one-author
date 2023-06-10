@@ -1,3 +1,6 @@
+/*!*********************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./assets/src/css/one-author.css ***!
+  \*********************************************************************************/
 * {
 	box-sizing: border-box;
 }
@@ -206,9 +209,9 @@ input[type="file"]::file-selector-button {
 }
 
 .loader {
-	color: rgba(0, 0, 0, 0);
-	height: 40px;
-	width: 40px;
+	font-size: 0px;
+	height: 40px !important;
+	width: 40px !important;
 	background-color: rgba(0, 0, 0, 0);
 	border: 3px solid rgba(0, 0, 0, 0);
 	box-shadow: none;
