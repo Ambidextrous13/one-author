@@ -25,20 +25,14 @@ if ( empty( $one_authors ) ) {
 	<div class="one-author-container">
 		<div class="one-author-left-box">
 			<div class="one-author-id">
-				<?php
-				if ( 1 === $auth_count ) {
-					echo '<input required readonly type="text" name="one_auth_id" id="one_auth_id" placeholder="Your ID" value="' . esc_attr__( 'User Id: ', 'one-author' ) . esc_attr( $one_authors[0]['ID'] ) . '">';
-				} else {
-					echo '<input required readonly type="text" name="one_auth_id" id="one_auth_id" placeholder="Author ID">';
-				}
-				?>
+				<input required readonly type="text" name="one_auth_id" id="one_auth_id" placeholder="Author ID">
 			</div>
 			<div id="one-auth-click-img" class="one-author-avatar">
-				<img class="one-author-image-holder" id="one_auth_img" src="<?php echo $old ? esc_url( wp_get_attachment_url( $data->author_display_img ) ) : ''; ?>" alt="author">
-				<p class="one-auth-text"><?php esc_html_e( 'Choose your Avatar', 'one-author' ); ?>
+				<img class="one-author-image-holder" id="one_auth_img" src="" alt="author">
+				<p class="one-auth-text"><?php esc_html_e( 'Choose your Avatar', 'one-author' ); ?></p>
 				<div class="edit-options">
 					<input type="file" name="one_auth_avatar" id="one_auth_avatar">
-					<div class="submit-btn" id="avatar_submit">Upload</div>
+					<div class="submit-btn" id="avatar_submit"><?php esc_html_e( 'Upload', 'one-author' ); ?></div>
 				</div>
 			</div>
 			<div class="one-author-social-media">
@@ -73,7 +67,7 @@ if ( empty( $one_authors ) ) {
 						}
 						?>
 					</select>
-					<input required class="one-author-social-link" type="text" name="one_auth_social_1" id="one_auth_social_1" placeholder="Link" value="<?php echo $old ? esc_attr( $data->author_social_media[0]['url'] ) : ''; ?>">
+					<input required class="one-author-social-link" type="text" name="one_auth_social_1" id="one_auth_social_1" placeholder="Link" value="">
 				</div>
 				<div class="one-author-social-grp grp-2">
 					<select class="one-author-social-select" name="one_auth_select_2" id="one_auth_select_2" placeholder="Social Select">
@@ -88,7 +82,7 @@ if ( empty( $one_authors ) ) {
 						}
 						?>
 					</select>
-					<input required class="one-author-social-link" type="text" name="one_auth_social_2" id="one_auth_social_2" placeholder="Link"  value="<?php echo $old ? esc_attr( $data->author_social_media[1]['url'] ) : ''; ?>">
+					<input required class="one-author-social-link" type="text" name="one_auth_social_2" id="one_auth_social_2" placeholder="Link"  value="">
 				</div>
 				<div class="one-author-social-grp grp-3">
 					<select class="one-author-social-select" name="one_auth_select_3" id="one_auth_select_3" placeholder="Social Select">
@@ -103,7 +97,7 @@ if ( empty( $one_authors ) ) {
 						}
 						?>
 					</select>
-					<input required class="one-author-social-link" type="text" name="one_auth_social_3" id="one_auth_social_3" placeholder="Link"  value="<?php echo $old ? esc_attr( $data->author_social_media[2]['url'] ) : ''; ?>">
+					<input required class="one-author-social-link" type="text" name="one_auth_social_3" id="one_auth_social_3" placeholder="Link"  value="">
 				</div>
 			</div>
 		</div>
@@ -112,11 +106,7 @@ if ( empty( $one_authors ) ) {
 			<div class="one-author-name-box">
 				<div class="one-author-name">
 					<select class="one-author-name-select" name="one_auth_name" id="one_auth_name">
-						<?php
-						if ( $auth_count > 1 ) {
-							echo '<option style="display:none;" selected>Select the author</option>';
-						}
-						?>
+						<option style="display:none;" selected>Select the author</option>
 						<?php
 						foreach ( $one_authors as $sr_no => $meta ) {
 							echo '<option class="name-selector" value="' . esc_attr( $meta['name'] ) . '" data="' . esc_attr( $meta['ID'] ) . '">' . esc_html( $meta['name'] ) . '</option>';
@@ -125,14 +115,14 @@ if ( empty( $one_authors ) ) {
 					</select>
 				</div>
 				<div class="one-author-display-name">
-					<input required type="text" name="one_auth_display_name" id="one_auth_display_name" placeholder="Your Display Name" value="<?php echo $old ? esc_attr( $data->author_display_name ) : ''; ?>">
+					<input required type="text" name="one_auth_display_name" id="one_auth_display_name" placeholder="Your Display Name" value="">
 				</div>
 			</div>
 			<div class="one-author-punch-line">
-				<input required type="text" name="one_auth_punch_line" id="one_auth_punch_line" placeholder="Punch line goes here" value="<?php echo $old ? esc_attr( $data->author_punch_line ) : ''; ?>">
+				<input required type="text" name="one_auth_punch_line" id="one_auth_punch_line" placeholder="Punch line goes here" value="">
 			</div>
 			<div class="one-author-about-author">
-				<textarea required name="one_auth_description"  rows="10" placeholder="About Author" id="one_auth_description" ><?php echo $old ? esc_html( $data->author_about ) : ''; ?></textarea>
+				<textarea required name="one_auth_description"  rows="10" placeholder="About Author" id="one_auth_description" ></textarea>
 			</div>
 			<?php wp_nonce_field( 'action_camera_light', 'dont_copy_the_nonce' ); ?>
 			<button id="one_auth_submit" type="submit" class="submit-btn"><?php esc_html_e( 'Submit', 'one-author' ); ?></button>
