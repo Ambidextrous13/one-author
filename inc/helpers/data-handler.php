@@ -53,9 +53,9 @@ function catch_the_data() {
 			);
 			return false;
 		}
-		require_once untrailingslashit( ABSPATH ) . 'wp-admin\\includes\\image.php';
-		require_once untrailingslashit( ABSPATH ) . 'wp-admin\\includes\\file.php';
-		require_once untrailingslashit( ABSPATH ) . 'wp-admin\\includes\\media.php';
+		require_once untrailingslashit( ABSPATH ) . '\\wp-admin\\includes\\image.php';
+		require_once untrailingslashit( ABSPATH ) . '\\wp-admin\\includes\\file.php';
+		require_once untrailingslashit( ABSPATH ) . '\\wp-admin\\includes\\media.php';
 
 		global $admin_menu_instance;
 		if ( ! $admin_menu_instance ) {
@@ -189,8 +189,18 @@ function ajax_data_fetcher() {
 
 	$data = fetch_the_data( $_POST['one_auth_id'] );
 	if ( false !== $data ) {
-		$data->success            = true;
-		$attachment_url           = wp_get_attachment_url( $data->author_display_img );
+		$data->success  = true;
+		$attachment_url = wp_get_attachment_url( $data->author_display_img );
+		if ( $attachment_url ) {
+			$edit_link = add_query_arg(
+				[
+					'item' => $data->author_display_img,
+					'mode' => 'edit',
+				],
+				admin_url( 'upload.php' )
+			);
+			$data->edit_link = $edit_link;
+		}
 		$data->author_display_img = $attachment_url ? wp_get_attachment_url( $data->author_display_img ) : '';
 		die( wp_json_encode( $data ) );
 	}
